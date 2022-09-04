@@ -7,6 +7,9 @@ const options = {
 
 const pgp = require('pg-promise')(options);
 
+const isEnviromentModeDevelopment =
+  process.env.APP_ENVIROMENT === 'development';
+
 const types = pgp.pg.types;
 
 types.setTypeParser(1114, (stringValue) => stringValue);
@@ -17,9 +20,7 @@ const db = pgp({
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  ssl: isEnviromentModeDevelopment ? false : { rejectUnauthorized: false },
 });
 
 module.exports = db;
