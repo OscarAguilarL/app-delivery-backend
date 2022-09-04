@@ -11,14 +11,15 @@ const types = pgp.pg.types;
 
 types.setTypeParser(1114, (stringValue) => stringValue);
 
-const databaseConfig = {
+const db = pgp({
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-};
-
-const db = pgp(databaseConfig);
+  ssl: {
+    rejectUnauthorized: false,
+  },
+});
 
 module.exports = db;
